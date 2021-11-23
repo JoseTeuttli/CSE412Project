@@ -1,11 +1,115 @@
-for a song
-unique id, genre(s), unique id of artist who made it, unique id of album its a part of, name of song, data it was made (EX: 2000-08-29)
+--Zoom link: https://asu.zoom.us/j/86794906162
+--To start server windows key -> sql shell
+--default for everything except password which is password
+--connect with dbeaver with username/database called postgres and password=password
 
-for an album
-unique id, unique id of artist who made it, unique ids of all songs in it, name of album, data it was made
 
-for artist
-unique id, unique id of all albums they made, unique id of all songs they made, name of artist
+--Drops all tables
+DROP TABLE public.album cascade;
+DROP TABLE public.album_made_artist cascade;
+DROP TABLE public.artist cascade;
+DROP TABLE public.genre cascade;
+DROP TABLE public.song_is_genre cascade;
+DROP TABLE public.like_song cascade;
+DROP TABLE public.owns cascade;
+DROP TABLE public.song_part_of_album cascade;
+DROP TABLE public.part_of_playlist cascade;
+DROP TABLE public.playlist cascade;
+DROP TABLE public.profile cascade;
+DROP TABLE public.song cascade;
+DROP TABLE public.song_made_artist cascade;
+
+--Create relations
+CREATE TABLE public.profile (
+	profileid int NOT NULL,
+	CONSTRAINT profile_pk PRIMARY KEY (profileid)
+);
+CREATE TABLE public.playlist (
+	playlistid int NOT NULL,
+	playlist_name text NOT NULL,
+	CONSTRAINT playlist_pk PRIMARY KEY (playlistid)
+);
+CREATE TABLE public.song (
+	songid int NOT NULL,
+	song_name text NOT NULL,
+	date_created date NOT NULL,
+	CONSTRAINT song_pk PRIMARY KEY (songid)
+);
+CREATE TABLE public.artist (
+	artistid int NOT NULL,
+	"name" text NOT NULL,
+	CONSTRAINT artist_pk PRIMARY KEY (artistid)
+);
+CREATE TABLE public.album (
+	albumid int NOT NULL,
+	date_created date NOT NULL,
+	"name" text NOT NULL,
+	CONSTRAINT album_pk PRIMARY KEY (albumid)
+);
+CREATE TABLE public.genre (
+	"name" text NOT NULL,
+	CONSTRAINT genre_pk PRIMARY KEY ("name")
+);
+CREATE TABLE public.owns (
+	profileid int NOT NULL,
+	playlistid int NOT NULL,
+	date_created date NOT NULL,
+	CONSTRAINT owns_pk PRIMARY KEY (playlistid,profileid),
+	CONSTRAINT owns_fk FOREIGN KEY (profileid) REFERENCES public.profile(profileid) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT owns_fk_1 FOREIGN KEY (playlistid) REFERENCES public.playlist(playlistid) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE public.part_of_playlist (
+	playlistid int NOT NULL,
+	songid int NOT NULL,
+	CONSTRAINT part_of_playlist_pk PRIMARY KEY (playlistid,songid),
+	CONSTRAINT part_of_playlist_fk FOREIGN KEY (playlistid) REFERENCES public.playlist(playlistid) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT part_of_playlist_fk_1 FOREIGN KEY (songid) REFERENCES public.song(songid) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE public.like_song (
+	profileid int NOT NULL,
+	songid int NOT NULL,
+	CONSTRAINT like_song_pk PRIMARY KEY (profileid,songid),
+	CONSTRAINT like_song_fk FOREIGN KEY (profileid) REFERENCES public.profile(profileid) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT like_song_fk_1 FOREIGN KEY (songid) REFERENCES public.song(songid) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE public.song_made_artist (
+	songid int NOT NULL,
+	artistid int NOT NULL,
+	CONSTRAINT song_made_artist_pk PRIMARY KEY (songid,artistid),
+	CONSTRAINT song_made_artist_fk FOREIGN KEY (songid) REFERENCES public.song(songid) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT song_made_artist_fk_1 FOREIGN KEY (artistid) REFERENCES public.artist(artistid) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE public.album_made_artist (
+	albumid int NOT NULL,
+	artistid int NOT NULL,
+	CONSTRAINT album_made_artist_artist_pk PRIMARY KEY (albumid,artistid),
+	CONSTRAINT album_made_artist_artist_fk FOREIGN KEY (artistid) REFERENCES public.artist(artistid) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT album_made_artist_artist_fk_1 FOREIGN KEY (albumid) REFERENCES public.album(albumid) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE public.song_part_of_album (
+	songid int NOT NULL,
+	albumid int NOT NULL,
+	CONSTRAINT song_part_of_album_pk PRIMARY KEY (songid,albumid),
+	CONSTRAINT song_part_of_album_fk FOREIGN KEY (songid) REFERENCES public.song(songid) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT song_part_of_album_fk_1 FOREIGN KEY (albumid) REFERENCES public.album(albumid) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE public.song_is_genre (
+	songid int NOT NULL,
+	"name" text NOT NULL,
+	CONSTRAINT song_song_is_genre_pk PRIMARY KEY (songid,"name"),
+	CONSTRAINT song_song_is_genre_fk FOREIGN KEY (songid) REFERENCES public.song(songid) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT song_song_is_genre_fk_1 FOREIGN KEY ("name") REFERENCES public.genre("name") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+--Removes all data from tables
+truncate table song_is_genre cascade;
+truncate table album_made_artist cascade;
+truncate table song_made_artist cascade;
+truncate table song cascade;
+truncate table artist cascade;
+truncate table album cascade;
+truncate table genre cascade;
 
 --Add genres to database
 insert into genre values ('Country');
