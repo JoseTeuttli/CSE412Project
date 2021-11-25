@@ -197,6 +197,18 @@ insert into song_is_genre values(8,'Rock');
 insert into song_is_genre values(9,'Country');
 insert into song_is_genre values(10,'Rock');
 
+--Add song-album relations
+insert into song_part_of_album values(1,1);
+insert into song_part_of_album values(2,2);
+insert into song_part_of_album values(3,3);
+insert into song_part_of_album values(4,4);
+insert into song_part_of_album values(5,5);
+insert into song_part_of_album values(6,6);
+insert into song_part_of_album values(7,7);
+insert into song_part_of_album values(8,8);
+insert into song_part_of_album values(9,9);
+insert into song_part_of_album values(10,10);
+
 --Demo of select statements on tables
 --Select all from artist
 select * from artist;
