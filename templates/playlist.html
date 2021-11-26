@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <form action="/" method="GET">
+        <button><a>Go To Home</a></button><br>
+    </form>
+    <form action="/new_playlist" method="GET">
+        <button><a>Create a new playlist</a></button><br>
+    </form>
+    <table>
+        <tr>
+            <th>Playlist</th>
+            <th>Song</th>
+        </tr>
+        {%for playlist in playlists:%}
+        <tr>
+            <td>{{playlist[0]}}</td>
+            <td>{{playlist[1]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>
