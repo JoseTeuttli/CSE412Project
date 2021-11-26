@@ -1,10 +1,14 @@
 1. Fix profile creation commands to include username column
 2. Fix owns table creation command being renamed to profile_made_playlist
-
+3. Create Playlist Page
 
 TO DO:
-1. Create Playlist Page
-2. 
+1. Add Songs to Playlists
+2. Ability to like songs
+3. Remove songs from playlist
+4. Remove playlists from profile
+5. Modify all pages to look pretty
+
 
 
 
