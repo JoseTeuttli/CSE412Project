@@ -4,44 +4,44 @@ import numpy as np
 def genCommands(data):
     with open("commands.txt", "r+") as f:
         #Genre Commands
-        f.write("\n--Add genres to Database:\n")
+        #f.write("\n--Add genres to Database:\n")
         for genre in data.Genre.unique():
             f.write("insert into genre values ('" + genre + "');\n")
 
         #Artist Commands
-        f.write("\n--Add artists to Database:\n")
+        #f.write("\n--Add artists to Database:\n")
         for name in data.ArtistName.unique():
             id = str(data[data["ArtistName"]==name].ArtistID.values.tolist()[0])
             f.write("insert into artist values (" + id + ", '" + name + "');\n")
 
         #Album Commands
-        f.write("\n--Add albums to Database:\n")
+        #f.write("\n--Add albums to Database:\n")
         for name in data.AlbumName.unique():
             date = str(data[data["AlbumName"]==name].Date.values.tolist()[0])
             id = str(data[data["AlbumName"]==name].AlbumID.values.tolist()[0])
             f.write("insert into album values (" + id + ", '" + date  + "', '" + name + "');\n")
 
         #Song Commands
-        f.write("\n--Add songs to Database:\n")
+        #f.write("\n--Add songs to Database:\n")
         for name in data.SongName.unique():
             date = str(data[data["SongName"]==name].Date.values.tolist()[0])
             id = str(data[data["SongName"]==name].SongID.values.tolist()[0])
             f.write("insert into song values (" + id + ", '" + name  + "', '" + date + "');\n")
 
         #Album | Artist Commands
-        f.write("\n--Add Album x Artist Relationship to Database:\n")
+        #f.write("\n--Add Album x Artist Relationship to Database:\n")
         for albumID in data.AlbumID.unique():
             artistID = data[data["AlbumID"]==albumID].ArtistID.values.tolist()[0]
             f.write("insert into album_made_artist values (" + str(albumID) + ", " + str(artistID) + ");\n")
 
         #Song | Artist Commands
-        f.write("\n--Add Song x Artist Relationship to Database:\n")
+        #f.write("\n--Add Song x Artist Relationship to Database:\n")
         for songID in data.SongID.unique():
             artistID = data[data["SongID"]==songID].ArtistID.values.tolist()[0]
             f.write("insert into song_made_artist values (" + str(songID) + ", " + str(artistID) + ");\n")
 
         #Song | Genre Commands
-        f.write("\n--Add Song x Genre Relationship to Database:\n")
+        #f.write("\n--Add Song x Genre Relationship to Database:\n")
         for songID in data.SongID.unique():
             genre = data[data["SongID"]== songID].Genre.values.tolist()[0]
             f.write("insert into song_made_artist values (" + str(songID) + ", '" + genre + "');\n")
