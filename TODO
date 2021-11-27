@@ -3,11 +3,12 @@
 3. Create Playlist Page
 
 TO DO:
-1. Add Songs to Playlists
 2. Ability to like songs
 3. Remove songs from playlist
 4. Remove playlists from profile
-5. Modify all pages to look pretty
+5. add more navigation buttons
+6. Modify all pages to look pretty
+7. Add a check to see if a song already exists in the playlist (idk how it will behave currently if you add a duplicate song to a playlist)
 
 
 

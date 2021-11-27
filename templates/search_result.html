@@ -15,13 +15,32 @@
             <th>Creation Date</th>
             <th>Genre</th>
         </tr>
-        {%for tuple in data:%}
+        {% for tuple in data: %}
         <tr>
             <td>{{tuple[0]}}</td>
             <td>{{tuple[1]}}</td>
             <td>{{tuple[2]}}</td>
             <td>{{tuple[3]}}</td>
             <td>{{tuple[4]}}</td>
+            {% if (user_id!=-1) %}
+            <form action="/add_playlist" method="POST">
+
+                <!-- <p><input type=" submit" value="Add to a playlist" name="song_name" /></p> -->
+                <td>
+                    <label for="playlist_name">Select a playlist:</label>
+                    <select id="playlist_name" name="playlist_name">
+                        {% for name in playlists %}
+                        <option value="{{ name[0] | string }}">{{name[0] | string}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <button name="song_name" type="submit" value="{{ tuple[0] | string }}">Add to a
+                        playlist</button>
+                </td>
+            </form>
+            {% endif %}
+
         </tr>
         {% endfor %}
     </table>
