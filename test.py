@@ -22,7 +22,6 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    # fetch a certain student2
     sql_query = request.form['sql_query']
     cur.execute(sql_query)
 
@@ -238,14 +237,14 @@ def add_to_playlist():
                 and songid=%s""", (add_playlist_id, add_song_id,))
     query_results = cur.fetchall()
     if len(query_results) != 0:
-        return render_template('failure.html', data=song_name + ' ' + playlist_name)
+        return render_template('failure.html', data=song_name + ' is already in ' + playlist_name)
 
 
     cur.execute("""insert into part_of_playlist values (%s, %s)""",
                 (add_playlist_id, add_song_id))
     conn.commit()
 
-    return render_template('success.html', data=song_name + ' ' + playlist_name)
+    return render_template('success.html', data='You added ' + song_name + ' to ' + playlist_name)
 
 @ app.route('/remove_song')
 def remove_song():
@@ -261,13 +260,13 @@ def remove_from_playlist():
                 and playlist.playlist_name=%s""", (playlist_name,))
     query_result = cur.fetchall()
     if len(query_result) == 0:
-        render_template('failure.html', data=song_name + ' ' + playlist_name)
+        render_template('failure.html', data=playlist_name + ' does not exist')
     remove_playlist_id = query_result[0]
     cur.execute("""select song.songid from song
                 where song.song_name=%s""", (song_name,))
     query_result = cur.fetchall()
     if len(query_result) == 0:
-        render_template('failure.html', data=song_name + ' ' + playlist_name)
+        render_template('failure.html', data=song_name + ' not found within ' + playlist_name)
     remove_playlist_id = query_result[0]
     remove_song_id = query_result()[0]
     cur.execute("""delete from part_of_playlist
@@ -275,7 +274,58 @@ def remove_from_playlist():
                 and songid=%s""", (remove_playlist_id, remove_song_id))
     conn.commit()
 
-    return render_template('success.html', data=song_name + ' ' + playlist_name)
+    return render_template('success.html', data='You removed ' + song_name + ' From ' + playlist_name)
+
+@ app.route('/like', methods=['POST'])
+def like():
+    song_name = request.form['song_name']
+    if profile_id == -1:
+        return render_template('login.html')
+    cur.execute("""select song.songid from song
+                where song.song_name=%s""", (song_name,))
+    like_song_id = cur.fetchall()[0]
+    cur.execute("""insert into like_song values (%s, %s) """, (profile_id, like_song_id))
+    conn.commit()
+    return render_template('success.html', data='You liked ' + song_name)
+
+@ app.route('/unlike', methods=['POST'])
+def unlike():
+    song_name = request.form['song_name']
+    if profile_id == -1:
+        return render_template('login.html')
+    cur.execute("""select song.songid from song
+                where song.song_name=%s""", (song_name,))
+    query_result = cur.fetchall()
+    if len(query_result) == 0:
+        render_template('failure.html', data= song_name + ' is not liked')
+    unlike_song_id = query_result[0]
+    cur.execute("""delete from like_song
+                where profileid=%s
+                and songid = %s """, (profile_id, unlike_song_id))
+    conn.commit()
+    return render_template('success.html', data='You unliked ' + song_name)
+
+@app.route('/liked_songs')
+def liked_songs():
+    global profile_id
+    if profile_id == -1:
+        return render_template('login.html')
+                
+    cur.execute("""select song_name,album.name,artist.name,song.date_created,song_is_genre.name from song,album,artist,song_part_of_album,song_made_artist,song_is_genre,album_made_artist,like_song
+                    where album.albumid=album_made_artist.albumid
+                    and artist.artistid=album_made_artist.artistid
+                    and song.songid=song_part_of_album.songid
+                    and album.albumid=song_part_of_album.albumid
+                    and song.songid=song_made_artist.songid
+                    and artist.artistid=song_made_artist.artistid
+                    and song.songid=song_is_genre.songid
+                    and like_song.songid=song.songid
+                    and like_song.profileid=%s""", (profile_id,))
+    data = cur.fetchall()
+
+    print(data)
+    return render_template('liked_songs.html', data=data)
+
 
 if __name__ == '__main__':  # python interpreter assigns "__main__" to the file you run
     app.run(debug=True)

@@ -4,12 +4,13 @@
 4. Added Logout Functionality
 5. Remove playlists from profile
 6. Remove songs from playlist
+7. Ability to like songs
+8. Ability to unlike songs
 
 TO DO:
-Ability to like songs
 add more navigation buttons
 Modify all pages to look pretty
-Add a check to see if a song already exists in the playlist (idk how it will behave currently if you add a duplicate song to a playlist)
+
 
 
 

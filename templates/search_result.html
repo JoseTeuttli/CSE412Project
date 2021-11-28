@@ -39,6 +39,14 @@
                         playlist</button>
                 </td>
             </form>
+
+            <form action="/like" method="POST">
+
+                <!-- <p><input type=" submit" value="Add to a playlist" name="song_name" /></p> -->
+                <td>
+                    <button name="song_name" type="submit" value="{{ tuple[0] | string }}">Like Song</button>
+                </td>
+            </form>
             {% endif %}
 
         </tr>
