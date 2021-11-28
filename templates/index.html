@@ -1,31 +1,56 @@
 <!doctype html>
 
 
+
+<style>
+    h1 {text-align: center;}
+    title h1 {text-align: center;}
+    .center {
+        margin: 0;
+        position: absolute;
+        left: 50%;
+        -ms-transform: translate(-50%);
+        transform: translate(-50%);
+    }
+</style>
+
+<div class="jumbotron text-center">
+    <h1>Home Page</h1>
+</div>
+
 <head>
-    <title>Test</title>
+    <title>Music Library Service</title>
     <meta charset=utf-8>
 </head>
 
-<body>
+<body style="background-color: lightgray;">
+    <link rel="stylesheet" href="index.css">
     <!-- <form action="/submit" method="POST">
         <label for="sql_query">sql query:</label><br>
         <input type="text" id="sql_query" name="sql_query"><br><br>
         <button><a>Send</a></button><br>
     </form> -->
+
     <p>Currently logged in as: {{profile_username}}</p>
-    <form action="/search" method="GET">
-        <button><a>Go To Search</a></button><br><br>
-    </form>
-    <form action="/login" method="GET">
-        <button><a>Login</a></button><br><br>
-    </form>
-    <form action="/logout" method="POST">
-        <button><a>Logout</a></button><br><br>
-    </form>
-    <form action="/playlist" method="GET">
-        <button><a>Go To Your Playlists</a></button><br><br>
-    </form>
-    <form action="/liked_songs" method="GET">
-        <button><a>Go To Your Liked Songs</a></button><br><br>
-    </form>
+    <div class="center">
+        <form action="/search" method="GET">
+            <button><a>Go To Search</a></button><br><br>
+        </form>
+
+        <form action="/login" method="GET">
+            <button><a>Login</a></button><br><br>
+        </form>
+
+        <form action="/logout" method="POST">
+            <button><a>Logout</a></button><br><br>
+        </form>
+
+        <form action="/playlist" method="GET">
+            <button><a>Go To Your Playlists</a></button><br><br>
+        </form>
+
+        <form action="/liked_songs" method="GET">
+            <button><a>Go To Your Liked Songs</a></button><br><br>
+        </form>
+    </div>
 </body>
