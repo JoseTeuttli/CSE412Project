@@ -50,6 +50,12 @@ def genCommands(data):
             genre = data[data["SongID"]== songID].Genre.values.tolist()[0]
             f.write("insert into song_is_genre values (" + str(songID) + ", '" + genre + "');\n")
 
+        #Song | Album Commands
+        #f.write("\n--Add Song x Genre Relationship to Database:\n")
+        for songID in data.SongID.unique():
+            albumID = data[data["SongID"]==songID].AlbumID.values.tolist()[0]
+            f.write("insert into song_part_of_album values (" + str(songID) + ", " + str(albumID) + ");\n")
+
     f.close()
 
 

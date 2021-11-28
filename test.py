@@ -143,6 +143,7 @@ def logged_in():
 
 @ app.route('/playlist')
 def playlist():
+    global profile_id
     if profile_id == -1:
         return render_template('login.html')
     playlists = []
@@ -172,13 +173,11 @@ def playlist():
 
     return render_template('playlist.html', playlists=playlist_data)
 
-
 @ app.route('/new_playlist')
 def new_playlist():
     if profile_id == -1:
         return render_template('login.html')
     return render_template('new_playlist.html')
-
 
 @ app.route('/create_playlist', methods=['POST'])
 def create_playlist():
@@ -204,9 +203,23 @@ def create_playlist():
     else:
         return render_template('playlist.html')
 
+@ app.route('/remove_playlist')
+def remove_playlist():
+    if profile_id == -1:
+        return render_template('login.html')
+    return render_template('remove_playlist.html')
 
-@ app.route('/add_playlist', methods=['POST'])
-def add_playlist():
+@ app.route('/delete_playlist', methods=['POST'])
+def delete_playlist():
+    playlist_name = request.form['playlist_name']
+    cur.execute("""DELETE FROM playlist
+                WHERE playlist_name= %s """, (playlist_name,))
+    conn.commit()
+    return render_template('delete_playlist.html', playlist_name=playlist_name)
+
+
+@ app.route('/add_to_playlist', methods=['POST'])
+def add_to_playlist():
     song_name = request.form['song_name']
     playlist_name = request.form['playlist_name']
     if profile_id == -1:

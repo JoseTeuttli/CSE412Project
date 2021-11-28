@@ -102,6 +102,15 @@ CREATE TABLE public.song_is_genre (
 	CONSTRAINT song_song_is_genre_fk_1 FOREIGN KEY ("name") REFERENCES public.genre("name") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE public.profile_made_playlist (
+	profileid int NOT NULL,
+	playlistid int NOT NULL,
+	date_made date NOT NULL,
+	CONSTRAINT profile_made_playlist_pk PRIMARY KEY (profileid,playlistid),
+	CONSTRAINT profile_made_playlist_fk FOREIGN KEY (profileid) REFERENCES public.profile(profileid) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT profile_made_playlist_fk_1 FOREIGN KEY (playlistid) REFERENCES public.playlist(playlistid) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 
 --Removes all data from tables
 truncate table song_is_genre cascade;
