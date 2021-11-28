@@ -2,14 +2,14 @@
 2. Fix owns table creation command being renamed to profile_made_playlist
 3. Create Playlist Page
 4. Added Logout Functionality
+5. Remove playlists from profile
 
 TO DO:
-2. Ability to like songs
-3. Remove songs from playlist
-4. Remove playlists from profile
-5. add more navigation buttons
-6. Modify all pages to look pretty
-7. Add a check to see if a song already exists in the playlist (idk how it will behave currently if you add a duplicate song to a playlist)
+1. Ability to like songs
+2. Remove songs from playlist
+3. add more navigation buttons
+4. Modify all pages to look pretty
+5. Add a check to see if a song already exists in the playlist (idk how it will behave currently if you add a duplicate song to a playlist)
 
 
 
