@@ -232,12 +232,50 @@ def add_to_playlist():
     cur.execute("""select song.songid from song
                 where song.song_name=%s""", (song_name,))
     add_song_id = cur.fetchall()[0]
+
+    cur.execute("""select playlistid from part_of_playlist
+                where playlistid=%s
+                and songid=%s""", (add_playlist_id, add_song_id,))
+    query_results = cur.fetchall()
+    if len(query_results) != 0:
+        return render_template('failure.html', data=song_name + ' ' + playlist_name)
+
+
     cur.execute("""insert into part_of_playlist values (%s, %s)""",
                 (add_playlist_id, add_song_id))
     conn.commit()
 
-    return render_template('success.html', data=song_name+playlist_name)
+    return render_template('success.html', data=song_name + ' ' + playlist_name)
 
+@ app.route('/remove_song')
+def remove_song():
+    return render_template('remove_song.html')
+
+@ app.route('/remove_from_playlist', methods=['POST'])
+def remove_from_playlist():
+    song_name = request.form['song_name']
+    playlist_name = request.form['playlist_name']
+    cur.execute("""select playlist.playlistid from playlist, profile, profile_made_playlist
+                where profile.profileid=profile_made_playlist.profileid
+                and playlist.playlistid=profile_made_playlist.playlistid
+                and playlist.playlist_name=%s""", (playlist_name,))
+    query_result = cur.fetchall()
+    if len(query_result) == 0:
+        render_template('failure.html', data=song_name + ' ' + playlist_name)
+    remove_playlist_id = query_result[0]
+    cur.execute("""select song.songid from song
+                where song.song_name=%s""", (song_name,))
+    query_result = cur.fetchall()
+    if len(query_result) == 0:
+        render_template('failure.html', data=song_name + ' ' + playlist_name)
+    remove_playlist_id = query_result[0]
+    remove_song_id = query_result()[0]
+    cur.execute("""delete from part_of_playlist
+                where playlistid=%s
+                and songid=%s""", (remove_playlist_id, remove_song_id))
+    conn.commit()
+
+    return render_template('success.html', data=song_name + ' ' + playlist_name)
 
 if __name__ == '__main__':  # python interpreter assigns "__main__" to the file you run
     app.run(debug=True)

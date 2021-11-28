@@ -3,13 +3,13 @@
 3. Create Playlist Page
 4. Added Logout Functionality
 5. Remove playlists from profile
+6. Remove songs from playlist
 
 TO DO:
-1. Ability to like songs
-2. Remove songs from playlist
-3. add more navigation buttons
-4. Modify all pages to look pretty
-5. Add a check to see if a song already exists in the playlist (idk how it will behave currently if you add a duplicate song to a playlist)
+Ability to like songs
+add more navigation buttons
+Modify all pages to look pretty
+Add a check to see if a song already exists in the playlist (idk how it will behave currently if you add a duplicate song to a playlist)
 
 
 
