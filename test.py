@@ -111,6 +111,13 @@ def search_result():
 def login():
     return render_template('login.html')
 
+@ app.route('/logout', methods=['POST'])
+def logout():
+    global profile_username
+    global profile_id
+    profile_username = ""
+    profile_id = -1
+    return render_template('logout.html')
 
 @ app.route('/logged_in', methods=['POST'])
 def logged_in():

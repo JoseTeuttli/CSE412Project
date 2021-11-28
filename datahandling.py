@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 def genCommands(data):
-    with open("commands.txt", "r+") as f:
+    with open("commands.sql", "r+") as f:
         #Genre Commands
         #f.write("\n--Add genres to Database:\n")
         for genre in data.Genre.unique():
@@ -23,10 +23,14 @@ def genCommands(data):
 
         #Song Commands
         #f.write("\n--Add songs to Database:\n")
-        for name in data.SongName.unique():
+        previousids = []
+        for name in data.SongName:
             date = str(data[data["SongName"]==name].Date.values.tolist()[0])
-            id = str(data[data["SongName"]==name].SongID.values.tolist()[0])
-            f.write("insert into song values (" + id + ", '" + name  + "', '" + date + "');\n")
+            for songid in data[data["SongName"]==name].SongID.values.tolist():
+                if songid not in previousids:
+                    previousids.append(songid)
+                    f.write("insert into song values (" + str(songid) + ", '" + name  + "', '" + date + "');\n")
+                    break
 
         #Album | Artist Commands
         #f.write("\n--Add Album x Artist Relationship to Database:\n")
@@ -44,7 +48,7 @@ def genCommands(data):
         #f.write("\n--Add Song x Genre Relationship to Database:\n")
         for songID in data.SongID.unique():
             genre = data[data["SongID"]== songID].Genre.values.tolist()[0]
-            f.write("insert into song_made_artist values (" + str(songID) + ", '" + genre + "');\n")
+            f.write("insert into song_is_genre values (" + str(songID) + ", '" + genre + "');\n")
 
     f.close()
 

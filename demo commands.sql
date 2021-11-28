@@ -22,6 +22,7 @@ DROP TABLE public.song_made_artist cascade;
 --Create relations
 CREATE TABLE public.profile (
 	profileid int NOT NULL,
+	username text NOT NULL,
 	CONSTRAINT profile_pk PRIMARY KEY (profileid)
 );
 CREATE TABLE public.playlist (

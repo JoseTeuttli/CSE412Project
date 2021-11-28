@@ -37,10 +37,10 @@ SongID,SongName,ArtistName,AlbumName,Date,Genre
 36,Otro Trago,Sech,Suenos,2019-4-19,pop
 37,Antisocial (with Travis Scott),Ed Sheeran,No.6 Collaborations Project,2019-5-10,pop
 38,Sucker,Jonas Brothers,Sucker,2014-12-15,boy band
-39,"fuck, i''m lonely (with Anne-Marie) - from “13 Reasons Why: Season 3”",Lauv,13 Reasons Why ,2017-3-30,pop
+39,"fuck, i''m lonely (with Anne-Marie) - from “13 Reasons Why: Season 3”",Lauv,"13 Reasons Why ",2017-3-30,pop
 40,Higher Love,Kygo,Higher Love,1986-6-20,edm
 41,You Need To Calm Down,Taylor Swift,Lover,2019-8-23,pop
-42,Shallow,Lady Gaga,A Star Is Born Soundtrack,2018-09-27,pop
+42,Shallow,Lady Gaga,A Star Is Born Soundtrack,2018-9-27,pop
 43,Talk,Khalid,Free Spirit,2019-4-5,pop
 44,Con Altura,ROSALÍA,Con Altura,2019-3-28,r&b en espanol
 45,One Thing Right,Marshmello,One Thing Right (Remixes),2020-5-4,edm
@@ -235,7 +235,7 @@ SongID,SongName,ArtistName,AlbumName,Date,Genre
 234,Could I Have This Kiss Forever,"Houston, Whitney",Whitney: The Greatest Hits,2000-5-1,Rock
 235,The Bad Touch,Bloodhound Gang,Hooray For Boobies,1999-10-4,R&B
 236,Angels,"Williams, Robbie",The Ego Has Landed,1999-5-4,Rock
-237,Because You Love Me,"Messina, Jo Dee",I''m Alright,1998 -3-17,Country
+237,Because You Love Me,"Messina, Jo Dee",I''m Alright,1998-3-17,Country
 238,Country Comes To Town,"Keith, Toby",How Do You Like Me Now?!,1999-11-2,Country
 239,Girls Dem Sugar,Beenie Man,Art And Life,2000-7-11,Reggae
 240,Let''s Make Love,"Hill, Faith",Breathe,1999-11-9,Rap
@@ -303,7 +303,7 @@ SongID,SongName,ArtistName,AlbumName,Date,Genre
 302,"Live, Laugh, Love","Walker, Clay","Live, Laugh, Love",1999-8-24,Country
 303,No Leaf Clover (Live),Metallica,S&M,1999-11-23,Rock
 304,Another Nine Minutes,Yankee Grey,Untamed,2020-3-10,Country
-305,Tricky Tricky ,"Bega, Lou",A Little Bit of Mambo,1999-7-19,Rock
+305,"Tricky Tricky ","Bega, Lou",A Little Bit of Mambo,1999-7-19,Rock
 306,It''s So Hard,Big Punisher,Yeeeah Baby,2000-4-4,Rap
 307,When You Need My Love,"Worley, Darryl",Hard Rain Don''t Last,2000-7-18,Country
 308,How Many Licks?,Lil'' Kim,The Notorious K.I.M.,2000-6-27,Rap
@@ -320,7 +320,7 @@ SongID,SongName,ArtistName,AlbumName,Date,Genre
 319,The Best Man I Can Be,Ginuwine,The Best Man,1999-8-22,Rock
 320,Monica,Before Dark,Daydreamin'',2006-8-13,Rock
 321,No Me Dejes De Querer,"Estefan, Gloria",Alma Caribeña,2000-5-9,Rock
-322,Sour Girl,Stone Temple Pilots,No. 4,1999-26-8,Rock
+322,Sour Girl,Stone Temple Pilots,No. 4,1999-8-26,Rock
 323,Daddy Won''t Sell The Farm,Montgomery Gentry,Tattoos & Scars,1999-4-13,Country
 324,You Won''t Be Lonely Now,"Cyrus, Billy Ray",Southern Rain,2000-10-17,Country
 325,Meanwhile Back At The Ranch,Clark Family Experience,The Clark Family Experience,2002-8-20,Country
@@ -350,7 +350,7 @@ SongID,SongName,ArtistName,AlbumName,Date,Genre
 349,Riddle,En Vogue,Masterpiece Theatre,2009-2-24,Rock
 350,No Mercy,"Herndon, Ty",Steam,1994-9-4,Country
 351,I''m Outta Love,Anastacia,Not That Kind,2000-3-27,Pop
-352,Pull Over,Trina,Da Baddest Bitch,2000-21-3,Rap
+352,Pull Over,Trina,Da Baddest Bitch,2000-3-21,Rap
 353,Ta Da,Lil'' Mo,Based on a True Story,2013-3-26,Rap
 354,Where I Wanna Be,"Sheist, Shade",Informal Introduction,2002-8-10,Rap
 355,All Good?,De La Soul,Art Official Intelligence: Mosaic Thump,2000-8-8,Rap
