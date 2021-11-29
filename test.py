@@ -6,7 +6,7 @@ from flask.templating import render_template
 
 app = Flask(__name__)
 conn = psycopg2.connect(host="localhost", port=5432,
-                        database="postgres", user="postgres", password="password")
+                        database="projecttest", user="postgres", password="password")
 cur = conn.cursor()
 
 # global PROFILE_ID
