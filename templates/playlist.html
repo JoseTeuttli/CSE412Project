@@ -23,15 +23,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="liked_songs">Liked Songs</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search">Search Songs</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">>
                     <li class="nav-item">
                         <a class="nav-link" href="login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <form action="/logout" method="POST">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </form>
+                        <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
                     </li>
                 </form>
               </div>
@@ -40,30 +41,39 @@
     </head>
 
     <body style="background-color: LightGray;">
-        <form action="/" method="GET">
-            <button><a>Go To Home</a></button><br><br>
-        </form>
-        <form action="/new_playlist" method="GET">
-            <button><a>Create a new playlist</a></button><br><br>
-        </form>
-        <form action="/remove_playlist" method="GET">
-            <button><a>Remove a playlist</a></button><br><br>
-        </form>
-        <form action="/remove_song" method="GET">
-            <button><a>Remove a song</a></button><br><br>
-        </form>
+        <div class="container-fluid text-center mt-3">
+            <form action="/" method="GET">
+                <button><a>Go To Home</a></button><br><br>
+            </form>
+            <form action="/new_playlist" method="GET">
+                <button><a>Create a new playlist</a></button><br><br>
+            </form>
+            <form action="/remove_playlist" method="GET">
+                <button><a>Remove a playlist</a></button><br><br>
+            </form>
+            <form action="/search" method="GET">
+                <button><a>Search for Song to Add</a></button><br><br>
+            </form>
+            <form action="/remove_song" method="GET">
+                <button><a>Remove a song</a></button><br><br>
+            </form>
 
-        <table>
-            <tr>
-                <th>Playlist</th>
-                <th>Song</th>
-            </tr>
-            {%for playlist in playlists:%}
-            <tr>
-                <td>{{playlist[0]}}</td>
-                <td>{{playlist[1]}}</td>
-            </tr>
-            {% endfor %}
-        </table>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Playlist</th>
+                        <th scope="col">Song</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for playlist in playlists:%}
+                    <tr>
+                        <td>{{playlist[0]}}</td>
+                        <td>{{playlist[1]}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>

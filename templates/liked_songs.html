@@ -23,15 +23,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="liked_songs">Liked Songs</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search">Search Songs</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">>
                     <li class="nav-item">
                         <a class="nav-link" href="login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <form action="/logout" method="POST">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </form>
+                        <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
                     </li>
                 </form>
               </div>
@@ -40,32 +41,36 @@
     </head>
 
     <body style="background-color: LightGray;">
-        <form action="/" method="GET">
-            <button><a>Go To Home</a></button><br><br>
-        </form>
-        <table>
-            <tr>
-                <th>Song Name</th>
-                <th>Album Name</th>
-                <th>Artist Name</th>
-                <th>Creation Date</th>
-                <th>Genre</th>
-            </tr>
-            {% for tuple in data: %}                                          
-            <tr>
-                <td>{{tuple[0]}}</td>
-                <td>{{tuple[1]}}</td>
-                <td>{{tuple[2]}}</td>
-                <td>{{tuple[3]}}</td>
-                <td>{{tuple[4]}}</td>
-                <form action="/unlike" method="POST">
+        <div class ="container-fluid mt-3 text-center">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Song Name</th>
+                        <th>Album Name</th>
+                        <th>Artist Name</th>
+                        <th>Creation Date</th>
+                        <th>Genre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tuple in data: %}                                          
+                    <tr>
+                        <td>{{tuple[0]}}</td>
+                        <td>{{tuple[1]}}</td>
+                        <td>{{tuple[2]}}</td>
+                        <td>{{tuple[3]}}</td>
+                        <td>{{tuple[4]}}</td>
+                        <form action="/unlike" method="POST">
 
-                    <!-- <p><input type=" submit" value="Add to a playlist" name="song_name" /></p> -->
-                    <td>
-                        <button name="song_name" type="submit" value="{{ tuple[0] | string }}">Unlike Song</button>
-                    </td>
-                </form>
-            {% endfor %}
-        </table>
+                            <!-- <p><input type=" submit" value="Add to a playlist" name="song_name" /></p> -->
+                            <td>
+                                <button name="song_name" type="submit" value="{{ tuple[0] | string }}">Unlike Song</button>
+                            </td>
+                        </form>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>

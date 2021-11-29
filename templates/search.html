@@ -23,15 +23,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="liked_songs">Liked Songs</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search">Search Songs</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">>
                     <li class="nav-item">
                         <a class="nav-link" href="login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <form action="/logout" method="POST">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </form>
+                        <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
                     </li>
                 </form>
               </div>
@@ -40,17 +41,19 @@
     </head>
 
     <body style="background-color: LightGray;">
-        <form action="/search_result" method="POST">
-            <label for="search_text">search text:</label><br>
-            <input type="text" id="search_text" name="search_text"><br><br>
-            <label for="search_type">Choose a type:</label>
-            <select id="search_type" name="search_type">
-                <option value="artist">Artist</option>
-                <option value="album">Album</option>
-                <option value="song">Song</option>
-                <option value="genre">Genre</option>
-            </select>
-            <button><a>Send</a></button><br>
-        </form>
+        <div class ="container-fluid mt-3 text-center">
+            <form action="/search_result" method="POST">
+                <label for="search_text">search text:</label><br>
+                <input type="text" id="search_text" name="search_text"><br><br>
+                <label for="search_type">Choose a type:</label>
+                <select id="search_type" name="search_type">
+                    <option value="Artist">Artist</option>
+                    <option value="Album">Album</option>
+                    <option value="Song">Song</option>
+                    <option value="Genre">Genre</option>
+                </select>
+                <button><a>Send</a></button><br>
+            </form>
+        </div>
     </body>
 </html>

@@ -38,7 +38,7 @@ def search():
 def search_result():
     search_text = request.form['search_text']
     search_type = str(request.form['search_type'])
-    if(search_type == 'album'):
+    if(search_type == 'Album'):
         cur.execute("""select song_name,album.name,artist.name,song.date_created,song_is_genre.name from song,album,artist,song_part_of_album,song_made_artist,song_is_genre,album_made_artist
                     where album.albumid=album_made_artist.albumid
                     and artist.artistid=album_made_artist.artistid
@@ -48,7 +48,7 @@ def search_result():
                     and artist.artistid=song_made_artist.artistid
                     and song.songid=song_is_genre.songid
                     and album.name=%s""", (search_text,))
-    elif(search_type == 'artist'):
+    elif(search_type == 'Artist'):
         cur.execute("""select song_name,album.name,artist.name,song.date_created,song_is_genre.name from song,album,artist,song_part_of_album,song_made_artist,song_is_genre,album_made_artist
                     where album.albumid=album_made_artist.albumid
                     and artist.artistid=album_made_artist.artistid
@@ -58,7 +58,7 @@ def search_result():
                     and artist.artistid=song_made_artist.artistid
                     and song.songid=song_is_genre.songid
                     and artist.name=%s""", (search_text,))
-    elif(search_type == 'song'):
+    elif(search_type == 'Song'):
         cur.execute("""select song_name,album.name,artist.name,song.date_created,song_is_genre.name from song,album,artist,song_part_of_album,song_made_artist,song_is_genre,album_made_artist
                     where album.albumid=album_made_artist.albumid
                     and artist.artistid=album_made_artist.artistid
@@ -68,7 +68,7 @@ def search_result():
                     and artist.artistid=song_made_artist.artistid
                     and song.songid=song_is_genre.songid
                     and song.song_name=%s""", (search_text,))
-    elif(search_type == 'genre'):
+    elif(search_type == 'Genre'):
         cur.execute("""select song_name,album.name,artist.name,song.date_created,song_is_genre.name from song,album,artist,song_part_of_album,song_made_artist,song_is_genre,album_made_artist
                     where album.albumid=album_made_artist.albumid
                     and artist.artistid=album_made_artist.artistid
@@ -79,6 +79,8 @@ def search_result():
                     and song.songid=song_is_genre.songid
                     and song_is_genre.name=%s""", (search_text,))
     song_results = cur.fetchall()
+    if len(song_results) == 0:
+        return render_template('failure.html', data='There are no songs matching ' + search_type + ': ' + search_text)
     # data_tuples = []
     # for query_result in query_results:
     #     print(str(query_result[0]).replace('\'', ''))
@@ -102,7 +104,7 @@ def search_result():
 def login():
     return render_template('login.html')
 
-@ app.route('/logout', methods=['POST'])
+@ app.route('/logout')
 def logout():
     global profile_username
     global profile_id
@@ -140,7 +142,8 @@ def playlist():
     playlists = []
     cur.execute("""select playlist_name from playlist,profile_made_playlist,profile
                 where profile.profileid=profile_made_playlist.profileid
-                and playlist.playlistid=profile_made_playlist.playlistid""")
+                and playlist.playlistid=profile_made_playlist.playlistid
+                and profile.profileid=%s""", (profile_id,))
     query_result = cur.fetchall()
     for name in query_result:
         playlists.append(name[0])
@@ -149,7 +152,7 @@ def playlist():
                 and playlist.playlistid=profile_made_playlist.playlistid
                 and song.songid=part_of_playlist.songid
                 and part_of_playlist.playlistid = playlist.playlistid
-                and profile.username=%s""", (profile_username,))
+                and profile.profileid=%s""", (profile_id,))
     query_result = cur.fetchall()
     playlist_data = query_result
     for playlist in playlists:
@@ -179,20 +182,19 @@ def create_playlist():
                 and playlist.playlist_name=%s""", (playlist_name,))
     query_results = cur.fetchall()
     if len(query_results) == 0:
-        cur.execute("""select playlistid from playlist""")
-        query_results = cur.fetchall()
-        next_playlist_index = len(query_results)+1
+        cur.execute("""select max ( playlistid ) from playlist""")
+        query_results = int(cur.fetchone()[0])
+        next_playlist_index = query_results+1
         cur.execute("""insert into playlist values (%s,%s)""",
                     (next_playlist_index, playlist_name,))
         now = datetime.today()
         date = now.strftime("%Y-%m-%d")
-        print(profile_id)
         cur.execute("""insert into profile_made_playlist values (%s,%s,%s)""",
                     (profile_id, next_playlist_index, date,))
         conn.commit()
         return render_template('create_playlist.html', playlist_name=playlist_name)
     else:
-        return render_template('playlist.html')
+        return render_template('failure.html', data=playlist_name + ' already exists.')
 
 @ app.route('/remove_playlist')
 def remove_playlist():
@@ -203,8 +205,15 @@ def remove_playlist():
 @ app.route('/delete_playlist', methods=['POST'])
 def delete_playlist():
     playlist_name = request.form['playlist_name']
+    cur.execute("""select profile.profileid from playlist, profile, profile_made_playlist
+                WHERE profile.profileid=profile_made_playlist.profileid
+                and playlist.playlistid=profile_made_playlist.playlistid
+                and playlist.playlist_name=%s
+                and profile.profileid=%s""", (playlist_name, profile_id))
+    if len(cur.fetchall()) == 0:
+        return render_template('failure.html', data='You do not own this playlist or it does not exist.')
     cur.execute("""DELETE FROM playlist
-                WHERE playlist_name= %s """, (playlist_name,))
+                where playlist_name=%s""", (playlist_name,))
     conn.commit()
     return render_template('delete_playlist.html', playlist_name=playlist_name)
 
@@ -249,18 +258,23 @@ def remove_from_playlist():
     cur.execute("""select playlist.playlistid from playlist, profile, profile_made_playlist
                 where profile.profileid=profile_made_playlist.profileid
                 and playlist.playlistid=profile_made_playlist.playlistid
-                and playlist.playlist_name=%s""", (playlist_name,))
+                and playlist.playlist_name=%s
+                and profile.profileid=%s""", (playlist_name, profile_id))
     query_result = cur.fetchall()
     if len(query_result) == 0:
-        render_template('failure.html', data=playlist_name + ' does not exist')
+        return render_template('failure.html', data=playlist_name + ' does not exist')
     remove_playlist_id = query_result[0]
-    cur.execute("""select song.songid from song
-                where song.song_name=%s""", (song_name,))
+    cur.execute("""select song.songid from song, playlist, profile, profile_made_playlist, part_of_playlist
+                where profile.profileid=profile_made_playlist.profileid
+                and playlist.playlistid=profile_made_playlist.playlistid
+                and playlist.playlistid=part_of_playlist.playlistid
+                and song.songid=part_of_playlist.songid
+                and song.song_name=%s
+                and profile.profileid=%s""", (song_name, profile_id))
     query_result = cur.fetchall()
     if len(query_result) == 0:
-        render_template('failure.html', data=song_name + ' not found within ' + playlist_name)
-    remove_playlist_id = query_result[0]
-    remove_song_id = query_result()[0]
+        return render_template('failure.html', data=song_name + ' not found within ' + playlist_name)
+    remove_song_id = query_result[0]
     cur.execute("""delete from part_of_playlist
                 where playlistid=%s
                 and songid=%s""", (remove_playlist_id, remove_song_id))

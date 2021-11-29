@@ -23,15 +23,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="liked_songs">Liked Songs</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search">Search Songs</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">>
                     <li class="nav-item">
                         <a class="nav-link" href="login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <form action="/logout" method="POST">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </form>
+                        <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
                     </li>
                 </form>
               </div>
@@ -40,12 +41,14 @@
     </head>
 
     <body style="background-color: LightGray;">
-        You have successfully created the playlist {{playlist_name}}!
-        <form action="/search" method="GET">
-            <button><a>Go To Search</a></button><br><br>
-        </form>
-        <form action="/" method="GET">
-            <button><a>Go To Home</a></button><br><br>
-        </form>
+        <div class ="container-fluid mt-3 text-center">
+            You have successfully created the playlist {{playlist_name}}!
+            <form action="/search" method="GET">
+                <button><a>Go To Search</a></button><br><br>
+            </form>
+            <form action="/" method="GET">
+                <button><a>Go To Home</a></button><br><br>
+            </form>
+        </div>
     </body>
 </html>

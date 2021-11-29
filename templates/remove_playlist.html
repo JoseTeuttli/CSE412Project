@@ -23,15 +23,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="liked_songs">Liked Songs</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search">Search Songs</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">>
                     <li class="nav-item">
                         <a class="nav-link" href="login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <form action="/logout" method="POST">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </form>
+                        <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
                     </li>
                 </form>
               </div>
@@ -40,10 +41,12 @@
 
     </head>
     <body style="background-color: LightGray;">
-        <form action="/delete_playlist" method="POST">
-            <p>Enter The Playlist's Name:</p>
-            <p><input type="text" name="playlist_name" /></p>
-            <p><input type="submit" value="submit" /></p>
-        </form>
+        <div class ="container-fluid mt-3 text-center">
+            <form action="/delete_playlist" method="POST">
+                <p>Enter The Playlist's Name:</p>
+                <p><input type="text" name="playlist_name" /></p>
+                <p><input type="submit" value="submit" /></p>
+            </form>
+        </div>
     </body>
 </html>
