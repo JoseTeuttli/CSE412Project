@@ -6,7 +6,7 @@ from flask.templating import render_template
 
 app = Flask(__name__)
 conn = psycopg2.connect(host="localhost", port=5432,
-                        database="projecttest", user="postgres", password="password")
+                        database="postgres", user="postgres", password="password")
 cur = conn.cursor()
 
 # global PROFILE_ID
@@ -47,7 +47,7 @@ def search_result():
                     and song.songid=song_made_artist.songid
                     and artist.artistid=song_made_artist.artistid
                     and song.songid=song_is_genre.songid
-                    and album.name=%s""", (search_text,))
+                    and LOWER(album.name)=LOWER(%s)""", (search_text,))
     elif(search_type == 'Artist'):
         cur.execute("""select song_name,album.name,artist.name,song.date_created,song_is_genre.name from song,album,artist,song_part_of_album,song_made_artist,song_is_genre,album_made_artist
                     where album.albumid=album_made_artist.albumid
@@ -57,7 +57,7 @@ def search_result():
                     and song.songid=song_made_artist.songid
                     and artist.artistid=song_made_artist.artistid
                     and song.songid=song_is_genre.songid
-                    and artist.name=%s""", (search_text,))
+                    and LOWER(artist.name)=LOWER(%s)""", (search_text,))
     elif(search_type == 'Song'):
         cur.execute("""select song_name,album.name,artist.name,song.date_created,song_is_genre.name from song,album,artist,song_part_of_album,song_made_artist,song_is_genre,album_made_artist
                     where album.albumid=album_made_artist.albumid
@@ -67,7 +67,7 @@ def search_result():
                     and song.songid=song_made_artist.songid
                     and artist.artistid=song_made_artist.artistid
                     and song.songid=song_is_genre.songid
-                    and song.song_name=%s""", (search_text,))
+                    and LOWER(song.song_name)=LOWER(%s)""", (search_text,))
     elif(search_type == 'Genre'):
         cur.execute("""select song_name,album.name,artist.name,song.date_created,song_is_genre.name from song,album,artist,song_part_of_album,song_made_artist,song_is_genre,album_made_artist
                     where album.albumid=album_made_artist.albumid
@@ -77,7 +77,7 @@ def search_result():
                     and song.songid=song_made_artist.songid
                     and artist.artistid=song_made_artist.artistid
                     and song.songid=song_is_genre.songid
-                    and song_is_genre.name=%s""", (search_text,))
+                    and LOWER(song_is_genre.name)=LOWER(%s)""", (search_text,))
     song_results = cur.fetchall()
     if len(song_results) == 0:
         return render_template('failure.html', data='There are no songs matching ' + search_type + ': ' + search_text)
