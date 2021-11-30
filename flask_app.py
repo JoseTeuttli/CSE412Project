@@ -81,13 +81,6 @@ def search_result():
     song_results = cur.fetchall()
     if len(song_results) == 0:
         return render_template('failure.html', data='There are no songs matching ' + search_type + ': ' + search_text)
-    # data_tuples = []
-    # for query_result in query_results:
-    #     print(str(query_result[0]).replace('\'', ''))
-    #     data_tuple = (str(query_result[0]).replace('\'', ''), str(query_result[1]).replace(
-    #         '\'', ''), str(query_result[2]).replace('\'', ''), query_result[3], str(query_result[4]).replace('\'', ''))
-    #     data_tuples.append(data_tuple)
-    # print(data_tuples)
     if profile_id == -1:
         print(profile_id)
         return render_template('search_result.html',
@@ -104,6 +97,7 @@ def search_result():
 def login():
     return render_template('login.html')
 
+
 @ app.route('/logout')
 def logout():
     global profile_username
@@ -111,6 +105,7 @@ def logout():
     profile_username = ""
     profile_id = -1
     return render_template('logout.html')
+
 
 @ app.route('/logged_in', methods=['POST'])
 def logged_in():
@@ -167,11 +162,13 @@ def playlist():
 
     return render_template('playlist.html', playlists=playlist_data)
 
+
 @ app.route('/new_playlist')
 def new_playlist():
     if profile_id == -1:
         return render_template('login.html')
     return render_template('new_playlist.html')
+
 
 @ app.route('/create_playlist', methods=['POST'])
 def create_playlist():
@@ -183,7 +180,11 @@ def create_playlist():
     query_results = cur.fetchall()
     if len(query_results) == 0:
         cur.execute("""select max ( playlistid ) from playlist""")
-        query_results = int(cur.fetchone()[0])
+        query_results = cur.fetchone()[0]
+        if(query_results is None):
+            query_results = 0
+        else:
+            query_results = int(query_results)
         next_playlist_index = query_results+1
         cur.execute("""insert into playlist values (%s,%s)""",
                     (next_playlist_index, playlist_name,))
@@ -196,11 +197,13 @@ def create_playlist():
     else:
         return render_template('failure.html', data=playlist_name + ' already exists.')
 
+
 @ app.route('/remove_playlist')
 def remove_playlist():
     if profile_id == -1:
         return render_template('login.html')
     return render_template('remove_playlist.html')
+
 
 @ app.route('/delete_playlist', methods=['POST'])
 def delete_playlist():
@@ -240,16 +243,17 @@ def add_to_playlist():
     if len(query_results) != 0:
         return render_template('failure.html', data=song_name + ' is already in ' + playlist_name)
 
-
     cur.execute("""insert into part_of_playlist values (%s, %s)""",
                 (add_playlist_id, add_song_id))
     conn.commit()
 
     return render_template('success.html', data='You added ' + song_name + ' to ' + playlist_name)
 
+
 @ app.route('/remove_song')
 def remove_song():
     return render_template('remove_song.html')
+
 
 @ app.route('/remove_from_playlist', methods=['POST'])
 def remove_from_playlist():
@@ -282,6 +286,7 @@ def remove_from_playlist():
 
     return render_template('success.html', data='You removed ' + song_name + ' From ' + playlist_name)
 
+
 @ app.route('/like', methods=['POST'])
 def like():
     song_name = request.form['song_name']
@@ -290,9 +295,11 @@ def like():
     cur.execute("""select song.songid from song
                 where song.song_name=%s""", (song_name,))
     like_song_id = cur.fetchall()[0]
-    cur.execute("""insert into like_song values (%s, %s) """, (profile_id, like_song_id))
+    cur.execute("""insert into like_song values (%s, %s) """,
+                (profile_id, like_song_id))
     conn.commit()
     return render_template('success.html', data='You liked ' + song_name)
+
 
 @ app.route('/unlike', methods=['POST'])
 def unlike():
@@ -303,7 +310,7 @@ def unlike():
                 where song.song_name=%s""", (song_name,))
     query_result = cur.fetchall()
     if len(query_result) == 0:
-        render_template('failure.html', data= song_name + ' is not liked')
+        render_template('failure.html', data=song_name + ' is not liked')
     unlike_song_id = query_result[0]
     cur.execute("""delete from like_song
                 where profileid=%s
@@ -311,12 +318,13 @@ def unlike():
     conn.commit()
     return render_template('success.html', data='You unliked ' + song_name)
 
+
 @app.route('/liked_songs')
 def liked_songs():
     global profile_id
     if profile_id == -1:
         return render_template('login.html')
-                
+
     cur.execute("""select song_name,album.name,artist.name,song.date_created,song_is_genre.name from song,album,artist,song_part_of_album,song_made_artist,song_is_genre,album_made_artist,like_song
                     where album.albumid=album_made_artist.albumid
                     and artist.artistid=album_made_artist.artistid

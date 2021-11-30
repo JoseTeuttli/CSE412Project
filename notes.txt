@@ -1,5 +1,0 @@
-bootstrap, a css library, imported as css thing and you use their classes. this is a css framework
-
-use jinja as a way to do for loops inside template, this is done to make tables
-
-example here: https://github.com/EdmundDong/cse-412-group-project/blob/main/app/templates/search.html

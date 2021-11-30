@@ -1,9 +1,3 @@
---Zoom link: https://asu.zoom.us/j/86794906162
---To start server windows key -> sql shell
---default for everything except password which is password
---connect with dbeaver with username/database called postgres and password=password
-
-
 --Drops all tables
 DROP TABLE public.album cascade;
 DROP TABLE public.album_made_artist cascade;
@@ -50,14 +44,6 @@ CREATE TABLE public.album (
 CREATE TABLE public.genre (
 	"name" text NOT NULL,
 	CONSTRAINT genre_pk PRIMARY KEY ("name")
-);
-CREATE TABLE public.owns (
-	profileid int NOT NULL,
-	playlistid int NOT NULL,
-	date_created date NOT NULL,
-	CONSTRAINT owns_pk PRIMARY KEY (playlistid,profileid),
-	CONSTRAINT owns_fk FOREIGN KEY (profileid) REFERENCES public.profile(profileid) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT owns_fk_1 FOREIGN KEY (playlistid) REFERENCES public.playlist(playlistid) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE public.part_of_playlist (
 	playlistid int NOT NULL,
@@ -111,7 +97,7 @@ CREATE TABLE public.profile_made_playlist (
 	CONSTRAINT profile_made_playlist_fk_1 FOREIGN KEY (playlistid) REFERENCES public.playlist(playlistid) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-
+--Demo data
 --Removes all data from tables
 truncate table song_is_genre cascade;
 truncate table album_made_artist cascade;
@@ -253,25 +239,7 @@ select artist.name from artist where artistid in (select artistid from song_made
 select artist.name from artist where artistid in (select artistid from album_made_artist where albumid in (select albumid from album where name='Survivor'));
 
 
-
-
-
-
-
-
---Add profile
-
---Add playlist
---Add songs to playlist
---Show all songs in playlistid
-
-
---Like songs
---Show all songs liked by profileid
-
-
-
-Data for demo
+Data used for demo
 id	date		name				track									artist						Genre
 int	YYYY-MM-DD	text				text									text						text
 1	2000-08-29	Survivor			Independent Women Part I				Destiny's Child				Rock
