@@ -1,0 +1,5 @@
+## for postgres
+psycopg2
+
+## for flask app
+flask
